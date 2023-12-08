@@ -1,0 +1,85 @@
+[gd_scene load_steps=7 format=3 uid="uid://cdovhthnlgfwt"]
+
+[ext_resource type="Texture2D" uid="uid://b2yjig1vg0lgi" path="res://art/BigSword.png" id="1_kaxtq"]
+[ext_resource type="Script" path="res://Weapons/katana_weapon.gd" id="1_qm32b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_st81d"]
+size = Vector2(4, 10)
+
+[sub_resource type="Animation" id="Animation_p765u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ifkcf"]
+resource_name = "broken"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(4, -16)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.15025]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b5fwr"]
+_data = {
+"RESET": SubResource("Animation_p765u"),
+"broken": SubResource("Animation_ifkcf")
+}
+
+[node name="Katana-Weapon" type="Area2D"]
+script = ExtResource("1_qm32b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -10)
+shape = SubResource("RectangleShape2D_st81d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(1, -8)
+texture = ExtResource("1_kaxtq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_b5fwr")
+}

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://1tgqmpqe6alb"]
+
+[ext_resource type="PackedScene" uid="uid://eqyudieeb53o" path="res://Collectables/collectable.tscn" id="1_cx5ad"]
+[ext_resource type="Texture2D" uid="uid://t3no78606q2v" path="res://art/Medipack.png" id="2_3rrla"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jr2n4"]
+resource_local_to_scene = true
+size = Vector2(10, 10)
+
+[node name="Medipack-Item" instance=ExtResource("1_cx5ad")]
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_jr2n4")
+
+[node name="Sprite2D" parent="." index="1"]
+texture_filter = 1
+texture = ExtResource("2_3rrla")

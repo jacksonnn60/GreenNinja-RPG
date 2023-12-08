@@ -1,0 +1,229 @@
+[gd_scene load_steps=14 format=3 uid="uid://b7k06m8wgtry7"]
+
+[ext_resource type="Script" path="res://Enemy-Reptile/enemy_reptile.gd" id="1_tt0il"]
+[ext_resource type="Texture2D" uid="uid://dgo03o0spaaq8" path="res://art/Reptile.png" id="2_rulvk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4gdur"]
+size = Vector2(13, 8)
+
+[sub_resource type="Animation" id="Animation_g4520"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("hitBox/CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.08165e-12, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("hitBox/CollisionShape2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_kxk2o"]
+resource_name = "walkDown"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(0, 1), Vector2i(0, 0), Vector2i(0, 3)]
+}
+
+[sub_resource type="Animation" id="Animation_ewyfa"]
+resource_name = "walkLeft"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(2, 0), Vector2i(2, 1), Vector2i(2, 0), Vector2i(2, 3)]
+}
+
+[sub_resource type="Animation" id="Animation_uis5i"]
+resource_name = "walkRight"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(3, 0), Vector2i(3, 1), Vector2i(3, 0), Vector2i(3, 3)]
+}
+
+[sub_resource type="Animation" id="Animation_8sjhw"]
+resource_name = "walkUp"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(1, 0), Vector2i(1, 1), Vector2i(1, 0), Vector2i(1, 3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("hitBox/CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(2.08165e-12, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("hitBox/CollisionShape2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(1.15, 1), Vector2(1, 1), Vector2(1.15, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2l0il"]
+_data = {
+"RESET": SubResource("Animation_g4520"),
+"walkDown": SubResource("Animation_kxk2o"),
+"walkLeft": SubResource("Animation_ewyfa"),
+"walkRight": SubResource("Animation_uis5i"),
+"walkUp": SubResource("Animation_8sjhw")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ya4d"]
+radius = 6.08696
+height = 16.0
+
+[sub_resource type="Animation" id="Animation_qbh02"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.972549, 0.027451, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rerbm"]
+resource_name = "hurt"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.972549, 0.027451, 0, 0.631373)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hofex"]
+_data = {
+"RESET": SubResource("Animation_qbh02"),
+"hurt": SubResource("Animation_rerbm")
+}
+
+[node name="EnemyReptile" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_tt0il")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_4gdur")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2l0il")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+clip_children = 2
+texture_filter = 1
+texture = ExtResource("2_rulvk")
+hframes = 4
+vframes = 4
+frame = 4
+
+[node name="ColorRect" type="ColorRect" parent="Sprite2D"]
+offset_left = -19.0
+offset_top = -22.0
+offset_right = 21.0
+offset_bottom = 18.0
+color = Color(0.972549, 0.027451, 0, 0)
+
+[node name="hitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitBox"]
+position = Vector2(2.08165e-12, 1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_4ya4d")
+
+[node name="EffectAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hofex")
+}
+
+[node name="hurtTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
