@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal didDie
+
 @export var speed = 20
 @export var limit = 0.5
 @onready var moveAnimation = $AnimationPlayer
@@ -8,7 +10,8 @@ extends CharacterBody2D
 @onready var hitBox = $hitBox
 var player
 
-var health = 3
+var isHurt = false
+var health = 2
 
 func _ready():
 	player = get_node("../TileMap/Player")
@@ -31,14 +34,17 @@ func updateVelocity():
 	
 func _physics_process(delta):
 	updateVelocity()
-	move_and_slide()
 	updateAnimation()
 	
 	for area in hitBox.get_overlapping_areas():
-		if area.name == "Katana" && player.isAttacking:
+		if area.name.contains("Katana-Weapon") && player.isAttacking && !isHurt:
+			isHurt = true
 			effectAnimation.play("hurt")
 			hurtTimer.start()
 			await hurtTimer.timeout
 			effectAnimation.play("RESET")
-			if health <= 0: queue_free() 
+			if health == 0: 
+				didDie.emit()
+				queue_free()
 			else: health -= 1
+			isHurt = false

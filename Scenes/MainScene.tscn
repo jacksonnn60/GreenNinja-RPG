@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://45o8j2h1ugl2"]
+[gd_scene load_steps=17 format=3 uid="uid://45o8j2h1ugl2"]
 
 [ext_resource type="Script" path="res://Scenes/MainScene.gd" id="1_1ul2x"]
 [ext_resource type="Texture2D" uid="uid://fgofqtdhg706" path="res://art/TilesetFloor.png" id="1_4fxsp"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://1tgqmpqe6alb" path="res://Collectables/Medipack-Item.tscn" id="4_c7cc2"]
 [ext_resource type="PackedScene" uid="uid://l8skxucx6eju" path="res://Collectables/Katana-Item.tscn" id="5_ukcsx"]
 [ext_resource type="PackedScene" uid="uid://xnotlpitxyh4" path="res://gui/HeartsContainer.tscn" id="6_ollte"]
+[ext_resource type="Script" path="res://gui/scoreLabel.gd" id="9_kumjo"]
 [ext_resource type="AudioStream" uid="uid://cmyvhpf2d3gso" path="res://Sounds/30 - Ruins.ogg" id="9_t7y65"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_76st4"]
@@ -2597,11 +2598,11 @@ layer_4/tile_data = PackedInt32Array(-196604, 2, 65536, -131067, 2, 65536)
 
 [node name="Camera2D" type="Camera2D" parent="TileMap"]
 position = Vector2(105, 86)
-zoom = Vector2(0.5, 0.5)
 limit_left = -16
 limit_top = -160
 limit_right = 612
-limit_bottom = 256
+limit_bottom = 268
+limit_smoothed = true
 position_smoothing_enabled = true
 editor_draw_limits = true
 
@@ -2619,7 +2620,7 @@ offset_top = 2.0
 offset_right = 24.0
 offset_bottom = 15.0
 
-[node name="Label" type="Label" parent="CanvasLayer"]
+[node name="scoreLabel" type="Label" parent="CanvasLayer"]
 offset_left = 192.0
 offset_top = 2.0
 offset_right = 238.0
@@ -2628,6 +2629,9 @@ text = "Score: 0
 
 "
 label_settings = SubResource("LabelSettings_okklu")
+script = ExtResource("9_kumjo")
 
 [node name="MainASP" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_t7y65")
+
+[connection signal="finished" from="MainASP" to="." method="_on_main_asp_finished"]

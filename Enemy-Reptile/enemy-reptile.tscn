@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://b7k06m8wgtry7"]
+[gd_scene load_steps=15 format=3 uid="uid://b7k06m8wgtry7"]
 
 [ext_resource type="Script" path="res://Enemy-Reptile/enemy_reptile.gd" id="1_tt0il"]
 [ext_resource type="Texture2D" uid="uid://dgo03o0spaaq8" path="res://art/Reptile.png" id="2_rulvk"]
+[ext_resource type="AudioStream" uid="uid://dtw5qtnfytpr5" path="res://Sounds/Kill.wav" id="3_pdlxb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gdur"]
 size = Vector2(13, 8)
@@ -227,3 +228,8 @@ libraries = {
 [node name="hurtTimer" type="Timer" parent="."]
 wait_time = 0.4
 one_shot = true
+
+[node name="KillASP" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_pdlxb")
+
+[connection signal="area_entered" from="hitBox" to="." method="_on_hit_box_area_entered"]
