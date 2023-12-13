@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var roundLabel = $CanvasLayer/roundLabel
 @onready var scoreLabel = $CanvasLayer/scoreLabel
 @onready var heartsContainer = $CanvasLayer/heartsContainer
 @onready var player = $TileMap/Player
@@ -8,81 +9,89 @@ extends Node2D
 var reptile_enemy = preload("res://Enemy-Reptile/enemy-reptile.tscn")
 var sword_item = preload("res://Collectables/Katana-Item.tscn")
 var medipack_item = preload("res://Collectables/Medipack-Item.tscn")
-var enemiesHasBeenAdded = false
-var swordHasBeenAdded = false
-var medipacksHasBeedAdded = false
 
+var not_empty_positions = []
+
+var enemies_alive: int = 0
 var score: int = 0
-var round: int = 1
+var round: int = 0
 
 # TODO: FINISH CHECKING FREE SPAWN POS
-func tile_map_position_is_free_for_spawn(position: Vector2):
-	var cells = tileMap.get_cell_tile_data(2, position)
-	return cells == null
+func get_not_empty_positions():
+	var not_empty_positions = [] 
+	for layer in $TileMap.get_layers_count():
+		var cells = $TileMap.get_used_cells(layer)
+		for cell in cells:
+			not_empty_positions.append(Vector2(cell.x * 16, cell.y * 16))
+	return not_empty_positions
 
 func randomize_object_spawn_position():
-	var tile_size = tileMap.tile_set.tile_size
-	var map_size = tileMap.get_used_rect().size
-	var max_x = map_size.x * tile_size.x
-	var max_y = map_size.y * tile_size.y
-	var new_x = randf_range(0, max_x - tile_size.x)
-	var new_y = randf_range(0, max_y - tile_size.y)
+	var new_x = randi_range(0, 592)
+	var new_y = randi_range(-144, 255)
 	var position = Vector2(new_x, new_y)
-	if tile_map_position_is_free_for_spawn(position):
-		return position
-	return randomize_object_spawn_position()
+	if position in not_empty_positions:
+		return randomize_object_spawn_position()
+	return position
 
 # Spawn
 
+func start_new_round():
+	for child in tileMap.get_children():
+		if child.name.contains("item_collectable"):
+			print("Clearing item: ", child.name)
+			child.queue_free()
+	round += 1
+	roundLabel.update_round(round)
+	enemies_alive = round * 2
+	spawn_enemies()
+	spawn_medipacks()
+	spawn_swords()
+
 func spawn_enemies(): 
-	if enemiesHasBeenAdded: return
-	for i in range(0, randi_range(1, 10)):
+	for i in range(0, round * 2):
 		var enemy = reptile_enemy.instantiate()
+		enemy.player = player
 		enemy.didDie.connect(update_score)
 		enemy.position = randomize_object_spawn_position()
 		enemy.name = "reptile_enemy" + str(i)
 		add_child(enemy)
-	enemiesHasBeenAdded = true
 
 func spawn_swords():
-	if swordHasBeenAdded: return
-	for i in range(0, randi_range(1, 10)):
+	for i in range(0, round * 3):
 		var sword = sword_item.instantiate()
 		sword.position = randomize_object_spawn_position()
 		sword.name = "katana_item_collectable" + str(i)
 		add_child(sword)
-	swordHasBeenAdded = true
 	
 func spawn_medipacks():
-	if medipacksHasBeedAdded: return
-	for i in range(0, randi_range(1, 10)):
+	for i in range(0, round * 2):
 		var medipack = medipack_item.instantiate()
 		medipack.position = randomize_object_spawn_position()
 		medipack.name = "medipack_item_collectable" + str(i)
 		add_child(medipack)
-	medipacksHasBeedAdded = true
 
 func update_score():
 	score += 1
+	enemies_alive -= 1
 	scoreLabel.update_score(score)
 
 func play_background_music():
-	if !$MainASP.playing:
-		$MainASP.play()
+	pass
+#	if !$MainASP.playing:
+#		$MainASP.play()
 
 func _ready():
+	not_empty_positions = get_not_empty_positions()
 	play_background_music()
-	spawn_enemies()
-	spawn_medipacks()
-	spawn_swords()
+	start_new_round()
 	heartsContainer.setMaxHearts(player.maxHealth)
 	heartsContainer.updateHearts(player.currentHealth)
 	player.healthChanged.connect(heartsContainer.updateHearts)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
-
+	if enemies_alive <= 0:
+		start_new_round()
 
 func _on_main_asp_finished():
 	play_background_music()

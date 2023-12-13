@@ -49,7 +49,6 @@ func createNewKatana():
 
 func attack():
 	if !$AttackASP.playing: $AttackASP.play()
-	
 	isAttacking = true
 	playerAnimation.play("atack" + getDirection(velocity))
 	await playerAnimation.animation_finished
@@ -75,32 +74,29 @@ func _physics_process(delta):
 	move_and_slide()
 	updateAnimation()
 
-func hurtByEnemy(area):
-	isHurt = true
-	if !$HitASP.playing: $HitASP.play()
-	currentHealth -= 1
-	if currentHealth < 0: 
-		currentHealth = maxHealth
-	healthChanged.emit(currentHealth)
-	knockback(area.get_parent().velocity)
-	effectsAnimations.play("hurt")
-	hurtTimer.start()
-	await hurtTimer.timeout
-	effectsAnimations.play("RESET")
-	isHurt = false
+func hurt_if_enemy(area):
+	if area.name == "hitBox" && !isHurt:
+		isHurt = true
+		if !$HitASP.playing: $HitASP.play()
+		currentHealth -= 1
+		if currentHealth < 0: 
+			currentHealth = maxHealth
+		healthChanged.emit(currentHealth)
+		knockback(area.get_parent().velocity)
+		effectsAnimations.play("hurt")
+		hurtTimer.start()
+		await hurtTimer.timeout
+		effectsAnimations.play("RESET")
+		isHurt = false
 
-func knockback(enemyVelocity: Vector2):
-	var knockbackDirection = (enemyVelocity - velocity).normalized() * knockbackPower
-	velocity = knockbackDirection
-	move_and_slide()
-
-func _on_hurt_box_area_entered(area: Area2D):
-	var areaName = area.name
-	if areaName.contains("katana_item_collectable") && !hasKatana:
+func get_sword_if_item_katana(area):
+	if area.name.contains("katana_item_collectable") && !hasKatana:
 		createNewKatana()
 		if !$WeaponPickupASP.playing: $WeaponPickupASP.play()
 		area.collect()
-	if areaName.contains("medipack_item_collectable") && currentHealth < maxHealth: 
+
+func heal_if_item_mediapack(area):
+	if area.name.contains("medipack_item_collectable") && currentHealth < maxHealth: 
 		currentHealth += 1
 		healthChanged.emit(currentHealth)
 		area.collect()
@@ -110,4 +106,13 @@ func _on_hurt_box_area_entered(area: Area2D):
 		await healTimer.timeout
 		$HealASP.stop()
 		effectsAnimations.play("RESET")
-	if areaName == "hitBox" && !isHurt: hurtByEnemy(area)
+
+func knockback(enemyVelocity: Vector2):
+	var knockbackDirection = (enemyVelocity - velocity).normalized() * knockbackPower
+	velocity = knockbackDirection
+	move_and_slide()
+
+func _on_hurt_box_area_entered(area: Area2D):
+	get_sword_if_item_katana(area)
+	heal_if_item_mediapack(area)
+	hurt_if_enemy(area)

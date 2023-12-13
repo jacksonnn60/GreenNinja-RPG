@@ -1,11 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://b7k06m8wgtry7"]
+[gd_scene load_steps=16 format=3 uid="uid://b7k06m8wgtry7"]
 
 [ext_resource type="Script" path="res://Enemy-Reptile/enemy_reptile.gd" id="1_tt0il"]
 [ext_resource type="Texture2D" uid="uid://dgo03o0spaaq8" path="res://art/Reptile.png" id="2_rulvk"]
 [ext_resource type="AudioStream" uid="uid://dtw5qtnfytpr5" path="res://Sounds/Kill.wav" id="3_pdlxb"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4gdur"]
-size = Vector2(13, 8)
 
 [sub_resource type="Animation" id="Animation_g4520"]
 length = 0.001
@@ -44,6 +41,82 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.48787e-16]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("hitBox:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+
+[sub_resource type="Animation" id="Animation_15rrr"]
+resource_name = "killed"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [3.48787e-16, 6.28319]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.5, 0.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("hitBox:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1e-05, 1e-05)]
 }
 
 [sub_resource type="Animation" id="Animation_kxk2o"]
@@ -137,15 +210,12 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2l0il"]
 _data = {
 "RESET": SubResource("Animation_g4520"),
+"killed": SubResource("Animation_15rrr"),
 "walkDown": SubResource("Animation_kxk2o"),
 "walkLeft": SubResource("Animation_ewyfa"),
 "walkRight": SubResource("Animation_uis5i"),
 "walkUp": SubResource("Animation_8sjhw")
 }
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ya4d"]
-radius = 6.08696
-height = 16.0
 
 [sub_resource type="Animation" id="Animation_qbh02"]
 length = 0.001
@@ -165,6 +235,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_rerbm"]
 resource_name = "hurt"
 length = 0.4
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -184,14 +255,19 @@ _data = {
 "hurt": SubResource("Animation_rerbm")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ya4d"]
+radius = 799984.0
+height = 1.59997e+06
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mkifa"]
+radius = 8.0
+
 [node name="EnemyReptile" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 3
+motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_tt0il")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
-shape = SubResource("RectangleShape2D_4gdur")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -213,13 +289,6 @@ offset_right = 21.0
 offset_bottom = 18.0
 color = Color(0.972549, 0.027451, 0, 0)
 
-[node name="hitBox" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitBox"]
-position = Vector2(2.08165e-12, 1)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_4ya4d")
-
 [node name="EffectAnimation" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_hofex")
@@ -232,4 +301,24 @@ one_shot = true
 [node name="KillASP" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_pdlxb")
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.001
+autostart = true
+
+[node name="hitBox" type="Area2D" parent="."]
+scale = Vector2(1e-05, 1e-05)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitBox"]
+position = Vector2(2.08165e-12, 1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_4ya4d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CircleShape2D_mkifa")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="area_entered" from="hitBox" to="." method="_on_hit_box_area_entered"]

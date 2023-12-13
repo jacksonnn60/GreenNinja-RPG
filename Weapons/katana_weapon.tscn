@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Weapons/katana_weapon.gd" id="1_qm32b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_st81d"]
-size = Vector2(4, 10)
+size = Vector2(8, 11)
 
 [sub_resource type="Animation" id="Animation_p765u"]
 length = 0.001
@@ -69,9 +69,10 @@ _data = {
 
 [node name="Katana-Weapon" type="Area2D"]
 script = ExtResource("1_qm32b")
+metadata/_edit_horizontal_guides_ = [-33.0]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, -10)
+position = Vector2(1, -11.5)
 shape = SubResource("RectangleShape2D_st81d")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

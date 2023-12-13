@@ -9,5 +9,5 @@ func _ready():
 func _process(delta):
 	pass
 
-func update_score(currentScore: int):
-	text = "Score: " + str(currentScore)
+func update_round(round: int):
+	text = "Round: " + str(round)
