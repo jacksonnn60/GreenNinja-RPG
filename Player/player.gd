@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 signal healthChanged
+signal didDie
 
 @export var maxHealth = 3
 @export var speed: int = 75
@@ -79,8 +80,8 @@ func hurt_if_enemy(area):
 		isHurt = true
 		if !$HitASP.playing: $HitASP.play()
 		currentHealth -= 1
-		if currentHealth < 0: 
-			currentHealth = maxHealth
+		if currentHealth <= 0: 
+			didDie.emit()
 		healthChanged.emit(currentHealth)
 		knockback(area.get_parent().velocity)
 		effectsAnimations.play("hurt")

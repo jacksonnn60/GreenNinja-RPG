@@ -87,6 +87,7 @@ func _ready():
 	heartsContainer.setMaxHearts(player.maxHealth)
 	heartsContainer.updateHearts(player.currentHealth)
 	player.healthChanged.connect(heartsContainer.updateHearts)
+	player.didDie.connect(game_over)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -95,3 +96,15 @@ func _process(delta):
 
 func _on_main_asp_finished():
 	play_background_music()
+
+func game_over():
+	save_score(score)
+	get_tree().change_scene_to_file("res://Menu+Config/Menu.tscn")
+
+func save_score(score):
+	var config = ConfigFile.new()
+	if config.load("res://Menu+Config/config.cfg") == OK:
+		config.set_value("Player", "score", score)
+	else:
+		config.set_value("Player", "score", score)
+	config.save("res://Menu+Config/config.cfg")
