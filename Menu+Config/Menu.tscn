@@ -16,7 +16,7 @@ script = ExtResource("1_isj2s")
 layout_mode = 0
 offset_right = 239.0
 offset_bottom = 134.0
-color = Color(0.611765, 0.670588, 0.360784, 1)
+color = Color(0.611765, 0.890196, 0.360784, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 texture_filter = 1
@@ -29,21 +29,36 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
+tooltip_text = "
+"
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0.72549, 1)
 theme_override_fonts/font = ExtResource("2_tgivs")
-theme_override_font_sizes/font_size = 21
+theme_override_font_sizes/font_size = 18
 text = "Start     the     game !
 "
 
-[node name="scoreLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 modulate = Color(0.301961, 0.207843, 0, 1)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_tgivs")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 10
 text = "Your   previous   score   is: 0
 "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[node name="TopScoreLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+modulate = Color(0.580392, 0.00784314, 0.745098, 1)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_tgivs")
+theme_override_font_sizes/font_size = 9
+text = "Your   previous   score   is: 0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_pressed"]

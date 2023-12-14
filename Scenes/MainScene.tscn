@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://45o8j2h1ugl2"]
+[gd_scene load_steps=27 format=3 uid="uid://45o8j2h1ugl2"]
 
 [ext_resource type="Script" path="res://Scenes/MainScene.gd" id="1_1ul2x"]
 [ext_resource type="Texture2D" uid="uid://fgofqtdhg706" path="res://art/TilesetFloor.png" id="1_4fxsp"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://1tgqmpqe6alb" path="res://Collectables/Medipack-Item.tscn" id="4_c7cc2"]
 [ext_resource type="PackedScene" uid="uid://l8skxucx6eju" path="res://Collectables/Katana-Item.tscn" id="5_ukcsx"]
 [ext_resource type="PackedScene" uid="uid://xnotlpitxyh4" path="res://gui/HeartsContainer.tscn" id="6_ollte"]
+[ext_resource type="FontFile" uid="uid://cynrjxh3g8alu" path="res://gui/NormalFont.ttf" id="9_fyllv"]
 [ext_resource type="Script" path="res://gui/scoreLabel.gd" id="9_kumjo"]
 [ext_resource type="AudioStream" uid="uid://cmyvhpf2d3gso" path="res://Sounds/30 - Ruins.ogg" id="9_t7y65"]
 [ext_resource type="Script" path="res://gui/roundLabel.gd" id="10_2wj0v"]
@@ -2589,8 +2590,8 @@ texture = ExtResource("3_tbrm6")
 0:0/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSet" id="TileSet_kg4fd"]
-physics_layer_0/collision_layer = 3
-physics_layer_0/collision_mask = 3
+physics_layer_0/collision_layer = 7
+physics_layer_0/collision_mask = 7
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_76st4")
 sources/1 = SubResource("TileSetAtlasSource_hbaak")
@@ -2599,10 +2600,12 @@ sources/2 = SubResource("TileSetScenesCollectionSource_onwv8")
 
 [sub_resource type="LabelSettings" id="LabelSettings_okklu"]
 line_spacing = 6.0
+font = ExtResource("9_fyllv")
 font_size = 7
 
 [sub_resource type="LabelSettings" id="LabelSettings_da35n"]
 line_spacing = 2.08165e-12
+font = ExtResource("9_fyllv")
 font_size = 7
 
 [node name="MainScene" type="Node2D"]

@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 signal didDie
 
-const speed = 60
+const speed = 50
 @export var limit = 0.5
 @onready var moveAnimation = $AnimationPlayer
 @onready var effectAnimation = $EffectAnimation
